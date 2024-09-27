@@ -1,38 +1,104 @@
 .App {
-  text-align: center;
-}
+  .app-background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    background: #000000;
+  }
+  .app-background li {
+    position: absolute;
+    display: block;
+    list-style: none;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    animation: animate 19s linear infinite;
+  }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+  .app-background li:nth-child(0) {
+    left: 60%;
+    width: 108px;
+    height: 108px;
+    bottom: -108px;
+    animation-delay: 1s;
+  }
+  .app-background li:nth-child(1) {
+    left: 70%;
+    width: 183px;
+    height: 183px;
+    bottom: -183px;
+    animation-delay: 3s;
+  }
+  .app-background li:nth-child(2) {
+    left: 50%;
+    width: 184px;
+    height: 184px;
+    bottom: -184px;
+    animation-delay: 2s;
+  }
+  .app-background li:nth-child(3) {
+    left: 29%;
+    width: 124px;
+    height: 124px;
+    bottom: -124px;
+    animation-delay: 7s;
+  }
+  .app-background li:nth-child(4) {
+    left: 41%;
+    width: 187px;
+    height: 187px;
+    bottom: -187px;
+    animation-delay: 17s;
+  }
+  .app-background li:nth-child(5) {
+    left: 30%;
+    width: 127px;
+    height: 127px;
+    bottom: -127px;
+    animation-delay: 15s;
+  }
+  .app-background li:nth-child(6) {
+    left: 80%;
+    width: 102px;
+    height: 102px;
+    bottom: -102px;
+    animation-delay: 26s;
+  }
+  .app-background li:nth-child(7) {
+    left: 83%;
+    width: 174px;
+    height: 174px;
+    bottom: -174px;
+    animation-delay: 27s;
+  }
+  .app-background li:nth-child(8) {
+    left: 59%;
+    width: 138px;
+    height: 138px;
+    bottom: -138px;
+    animation-delay: 8s;
+  }
+  .app-background li:nth-child(9) {
+    left: 84%;
+    width: 188px;
+    height: 188px;
+    bottom: -188px;
+    animation-delay: 19s;
   }
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@keyframes animate {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
   }
-  to {
-    transform: rotate(360deg);
+  100% {
+    transform: translateY(-1000px) rotate(720deg);
+    opacity: 0;
+    border-radius: 50%;
   }
 }

@@ -2,6 +2,8 @@
     width: 100%;
     border-collapse: collapse;
     font-family: sans-serif;
+    color: white;
+    margin-bottom: 80px;
   }
   
   .customer-table th,
@@ -9,10 +11,11 @@
     padding: 10px;
     border: 1px solid #ddd;
     text-align: left;
+    
   }
   
   .customer-table thead th {
-    background-color: #f2f2f2;
+    background-color: #666;
     font-weight: bold;
   }
   

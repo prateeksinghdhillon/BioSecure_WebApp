@@ -28,6 +28,9 @@
   }
   
   .register-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background-color: white;
     padding: 40px;
     border-radius: 10px;

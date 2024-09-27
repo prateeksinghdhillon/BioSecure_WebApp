@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "./Register.css";
-import axios from "axios";
+
 import FaFingerprint from "../../assets/fingerprint.png"; // Importing fingerprint icon
 import { useNavigate } from "react-router-dom";
+import { postToAuth } from "../../utils/AuthCilent";
+import { useLoader } from "../../utils/contexts/LodaerContext";
 
 const RegisterScreen = () => {
   const navigate = useNavigate();
@@ -12,6 +14,7 @@ const RegisterScreen = () => {
     password: "",
   });
   const [message, setMessage] = useState("");
+  const { setLoading } = useLoader();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,17 +24,23 @@ const RegisterScreen = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3000/api/register", formData);
-      setMessage(res.data.message);
+      setLoading(true);
+      const res = await postToAuth("/register", formData);
+      console.log(res);
+      setLoading(false);
+      setMessage(res.message);
     } catch (err) {
-      setMessage(err.response.data.message || "Registration failed");
+      setLoading(false);
+      console.log();
+      console.log(err);
+      setMessage(err.message || "Registration failed");
     }
   };
 
   return (
     <div className="register-container">
       <div className="header">
-        <img src={FaFingerprint} className="icon" />
+        <img src={FaFingerprint} alt="" className="icon" />
         <h2>BioSecure Customer View Portal</h2>
       </div>
 
@@ -63,7 +72,14 @@ const RegisterScreen = () => {
         />
         <button type="submit">Sign Up</button>
         {message && <p className="message">{message}</p>}
-        <p onClick={()=>{navigate('/login')}} className="signup-link">Login</p>
+        <p
+          onClick={() => {
+            navigate("/login");
+          }}
+          className="signup-link"
+        >
+          Login
+        </p>
       </form>
     </div>
   );

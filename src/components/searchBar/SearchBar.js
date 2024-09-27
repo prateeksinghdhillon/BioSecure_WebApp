@@ -1,7 +1,12 @@
-import React from 'react';
-import './SearchBar.css'; // Import the CSS file
+import React from "react";
+import "./SearchBar.css"; // Import the CSS file
 
-function SearchBar({ searchCriteria, setSearchCriteria, handleSearch }) {
+function SearchBar({
+  searchCriteria,
+  setSearchCriteria,
+  handleSearch,
+  handleAddUser,
+}) {
   const handleInputChange = (e) => {
     setSearchCriteria({
       ...searchCriteria,
@@ -32,6 +37,14 @@ function SearchBar({ searchCriteria, setSearchCriteria, handleSearch }) {
       />
       <button onClick={handleSearch} className="search-button">
         Search
+      </button>{" "}
+      <button
+        onClick={() => {
+          handleAddUser("add");
+        }}
+        className="search-button"
+      >
+        Add
       </button>
     </div>
   );

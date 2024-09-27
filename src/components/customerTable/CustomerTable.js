@@ -1,7 +1,11 @@
-import React from 'react';
-import './CustomerTable.css'; // Import the CSS file
+import React, { useEffect } from "react";
+import "./CustomerTable.css"; // Import the CSS file
 
-function CustomerTable({ customers, setSelectedCustomer, deleteCustomer }) {
+function CustomerTable({ customers, handleAddUser, deleteCustomer }) {
+  useEffect(() => {
+    console.log(customers);
+    console.log("render tanle");
+  });
   return (
     <table className="customer-table">
       <thead>
@@ -19,7 +23,9 @@ function CustomerTable({ customers, setSelectedCustomer, deleteCustomer }) {
       </thead>
       <tbody>
         {customers.map((customer) => (
-          <tr key={customer.id}> {/* Use unique identifier (id) for key */}
+          <tr key={customer.id}>
+            {" "}
+            {/* Use unique identifier (id) for key */}
             <td>{customer.id}</td>
             <td>{customer.name}</td>
             <td>{customer.email}</td>
@@ -27,12 +33,14 @@ function CustomerTable({ customers, setSelectedCustomer, deleteCustomer }) {
             <td>{customer.enrolldate}</td>
             <td>{customer.subenddate}</td>
             <td>{customer.role}</td>
-            <td>{customer.isFingerEnroled === 1 ? 'Yes' : 'No'}</td>
+            <td>{customer.isFingerEnroled === 1 ? "Yes" : "No"}</td>
             <td>
-              <div className="actions"> {/* Wrap buttons in a container */}
+              <div className="actions">
+                {" "}
+                {/* Wrap buttons in a container */}
                 <button
                   className="edit-button"
-                  onClick={() => setSelectedCustomer(customer)}
+                  onClick={() => handleAddUser("edit", customer)}
                 >
                   Edit
                 </button>
