@@ -1,0 +1,45 @@
+.customer-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: sans-serif;
+  }
+  
+  .customer-table th,
+  .customer-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .customer-table thead th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .actions {
+    display: flex; /* Arrange buttons horizontally */
+    justify-content: space-between; /* Space buttons evenly */
+  }
+  
+  .edit-button,
+  .delete-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .edit-button {
+    background-color: #3399ff;
+    color: white;
+  }
+  
+  .delete-button {
+    background-color: #ff3333;
+    color: white;
+  }
+  
+  .edit-button:hover,
+  .delete-button:hover {
+    opacity: 0.8; /* Add hover effect */
+  }
