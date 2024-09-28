@@ -1,0 +1,64 @@
+# This workflow deploys a React app to GitHub Pages
+
+name: Deploy React App to GitHub Pages
+
+on:
+  # Runs the workflow on pushes to the master/main branch
+  push:
+    branches:
+      - master  # or 'main' if that's your default branch
+
+  # Allows manual trigger of the workflow from the GitHub Actions tab
+  workflow_dispatch:
+
+# Granting necessary permissions to deploy to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Ensure only one deployment at a time to prevent conflicts
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Job to build and deploy the React app
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Setup Node.js environment to run the React app build
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # or specify your desired Node.js version
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Build the React app for production
+      - name: Build React app
+        run: npm run build
+
+      # Upload the build artifact, which GitHub Pages will deploy
+      - name: Upload production-ready build
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./build  # This is the default build directory for Create React App
+
+  deploy:
+    # Job to deploy the site to GitHub Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
