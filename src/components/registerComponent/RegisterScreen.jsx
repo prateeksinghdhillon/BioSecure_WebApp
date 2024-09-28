@@ -26,13 +26,10 @@ const RegisterScreen = () => {
     try {
       setLoading(true);
       const res = await postToAuth("/register", formData);
-      console.log(res);
       setLoading(false);
       setMessage(res.message);
     } catch (err) {
       setLoading(false);
-      console.log();
-      console.log(err);
       setMessage(err.message || "Registration failed");
     }
   };

@@ -28,7 +28,6 @@ const ChangePasswordScreen = () => {
     try {
       setLoading(true);
       const res = await postToAuth("/change-password", formData);
-      console.log(res);
       setLoading(false);
       setMessage(res.data.message);
     } catch (err) {

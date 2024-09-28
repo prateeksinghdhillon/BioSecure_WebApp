@@ -11,7 +11,11 @@ export const getFromPiAPi = async (ip, endpoint) => {
     const response = await API_FIRST(ip).get(endpoint);
     return response.data;
   } catch (error) {
-    throw error.response.data;
+    if (error?.code === "ERR_NETWORK") {
+      throw Object.assign(new Error("ERR_NETWORK"), { code: 503 });
+    } else {
+      throw error.response.data;
+    }
   }
 };
 

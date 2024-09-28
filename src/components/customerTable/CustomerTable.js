@@ -1,11 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./CustomerTable.css"; // Import the CSS file
 
 function CustomerTable({ customers, handleAddUser, deleteCustomer }) {
-  useEffect(() => {
-    console.log(customers);
-    console.log("render tanle");
-  });
   return (
     <table className="customer-table">
       <thead>

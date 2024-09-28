@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./MainLayout.css";
 import CustomerTable from "../customerTable/CustomerTable";
 import SearchBar from "../searchBar/SearchBar";
@@ -16,6 +16,7 @@ import CustomerForm from "../customerForm/CustomerForm";
 import ScrollToTop from "../../globalComponents/ScrollToTop/ScrollToTop";
 
 import GearIcon from "../../assets/settings.png";
+import NoCustomerFound from "../../globalComponents/errorPages/Error404";
 
 function MainLayout() {
   const mainLayoutRef = useRef(null);
@@ -26,36 +27,54 @@ function MainLayout() {
     query: "",
   });
   const [showForm, setShowForm] = useState(false);
+  const [show404, setShow404] = useState(false);
 
   const { setLoading } = useLoader();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  console.log(selectedCustomer);
-  // Fetch customers from API
-  useEffect(() => {
-    console.log(".......use effect");
-    fetchCustomers();
-  }, []);
+  const fetchCustomers = useCallback(
+    async (filter = "") => {
+      try {
+        setLoading(true);
+        const response = await getFromPiAPi(user.localIp, `/get${filter}`);
 
-  const fetchCustomers = async (filter = "") => {
-    try {
-      setLoading(true);
-      const response = await getFromPiAPi(user.localIp, `/get${filter}`);
-      console.log(response);
-      setCustomers(response.data || []);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      console.error("Error fetching customers:", error);
+        setCustomers(response.data || []);
+        setShow404(false);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        if (error.code === 503) {
+          console.log("network error");
+          navigate("/error503");
+        } else if (error.message === "No customers found") {
+          setShow404(true);
+        } else {
+          setShow404(false);
+          console.error("Error fetching customers:", error);
+        }
+      }
+    },
+    [setLoading, user, navigate]
+  );
+  // 404 Button handler
+  const handle404 = (btn) => {
+    if (btn === "reload") {
+      fetchCustomers();
+    } else {
+      setShowForm(true);
     }
   };
+
+  // Fetch customers from API
+  useEffect(() => {
+    fetchCustomers();
+  }, [fetchCustomers]); //
 
   const handleSearch = () => {
     const filter = `?${searchCriteria.filterBy}=${searchCriteria.query}`;
     fetchCustomers(filter);
   };
   const handleAddUser = (btn, customer) => {
-    console.log(btn);
     if (btn === "add") {
       setSelectedCustomer(undefined);
       setShowForm(!showForm);
@@ -137,10 +156,12 @@ function MainLayout() {
             Logout
           </button>
           <img
-            style={{ marginLeft: 20, height: 30,cursor:"pointer" }}
+            style={{ marginLeft: 20, height: 30, cursor: "pointer" }}
             src={GearIcon}
             alt="Settings"
-            onClick={()=>{navigate("/change-password")}}
+            onClick={() => {
+              navigate("/change-password");
+            }}
           />
         </div>
       </header>
@@ -161,13 +182,17 @@ function MainLayout() {
             />
           </div>
 
-          <div className="table-section">
-            <CustomerTable
-              customers={customers}
-              handleAddUser={handleAddUser}
-              deleteCustomer={deleteCustomer}
-            />
-          </div>
+          {show404 ? (
+            <NoCustomerFound handle404={handle404} />
+          ) : (
+            <div className="table-section">
+              <CustomerTable
+                customers={customers}
+                handleAddUser={handleAddUser}
+                deleteCustomer={deleteCustomer}
+              />
+            </div>
+          )}
         </>
       )}
       <ScrollToTop containerRef={mainLayoutRef} />

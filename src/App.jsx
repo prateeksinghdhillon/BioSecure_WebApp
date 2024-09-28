@@ -13,6 +13,7 @@ import { AuthProvider } from "./utils/contexts/AuthContext";
 import ProtectedRoute from "./utils/gaurds/ProtectedRoute ";
 import Loader from "./globalComponents/globalLoader/Loader";
 import { LoaderProvider, useLoader } from "./utils/contexts/LodaerContext";
+import Error503 from "./globalComponents/errorPages/Error503";
 
 function App() {
   return (
@@ -36,10 +37,13 @@ function App() {
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<RegisterScreen />} />
                 <Route element={<ProtectedRoute />}>
-                  <Route path="/change-password" element={<ChangePasswordScreen />} />
+                  <Route path="change-password" element={<ChangePasswordScreen />} />
                 </Route>
                 <Route element={<ProtectedRoute />}>
                   <Route path="main" element={<MainLayout />} />
+                </Route>
+                <Route element={<ProtectedRoute />}>
+                  <Route path="error503" element={<Error503 />} />
                 </Route>
                 {/* <Route path="*" element={<NoPage />} /> */}
               </Routes>
