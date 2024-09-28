@@ -1,9 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import axios from 'axios';
-// import CustomerForm from './components/customerForm/CustomerForm';
-// import CustomerTable from './components/customerTable/CustomerTable';
-// import SearchBar from './components/searchBar/SearchBar';
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Login from "./components/login/LoginScreen";
 import RegisterScreen from "./components/registerComponent/RegisterScreen";
@@ -14,7 +10,6 @@ import ProtectedRoute from "./utils/gaurds/ProtectedRoute ";
 import Loader from "./globalComponents/globalLoader/Loader";
 import { LoaderProvider, useLoader } from "./utils/contexts/LodaerContext";
 import Error503 from "./globalComponents/errorPages/Error503";
-
 function App() {
   return (
     <div className="App" id="root">
@@ -28,8 +23,7 @@ function App() {
         <li></li>
         <li></li>
         <li></li>
-        <li></li>
-        <BrowserRouter>
+        <Router>
           <LoaderProvider>
             <AuthProvider>
               <Routes>
@@ -37,7 +31,10 @@ function App() {
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<RegisterScreen />} />
                 <Route element={<ProtectedRoute />}>
-                  <Route path="change-password" element={<ChangePasswordScreen />} />
+                  <Route
+                    path="change-password"
+                    element={<ChangePasswordScreen />}
+                  />
                 </Route>
                 <Route element={<ProtectedRoute />}>
                   <Route path="main" element={<MainLayout />} />
@@ -50,11 +47,12 @@ function App() {
               <GlobalLoader />
             </AuthProvider>
           </LoaderProvider>
-        </BrowserRouter>
+        </Router>
       </div>
     </div>
   );
 }
+
 const GlobalLoader = () => {
   const { isLoading } = useLoader();
   return isLoading ? <Loader /> : null;
