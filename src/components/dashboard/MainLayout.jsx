@@ -36,7 +36,7 @@ function MainLayout() {
     async (filter = "") => {
       try {
         setLoading(true);
-        const response = await getFromPiAPi(user.localIp, `/get${filter}`);
+        const response = await getFromPiAPi(user.username, `/get${filter}`);
 
         setCustomers(response.data || []);
         setShow404(false);
@@ -96,7 +96,7 @@ function MainLayout() {
   const createCustomer = async (customer) => {
     try {
       setLoading(true);
-      await postToPiAPi(user.localIp, "/create", customer);
+      await postToPiAPi(user.username, "/create", customer);
       setLoading(false);
       setShowForm(!showForm);
       fetchCustomers();
@@ -109,7 +109,7 @@ function MainLayout() {
   const updateCustomer = async (customer) => {
     try {
       setLoading(true);
-      await putToPiAPi(user.localIp, `/update/${customer.id}`, customer);
+      await putToPiAPi(user.username, `/update/${customer.id}`, customer);
       setLoading(false);
       setShowForm(!showForm);
       fetchCustomers();
@@ -122,7 +122,7 @@ function MainLayout() {
   const deleteCustomer = async (id) => {
     try {
       setLoading(true);
-      await deleteFromPiAPi(user.localIp, `/delete/${id}`);
+      await deleteFromPiAPi(user.username, `/delete/${id}`);
       setLoading(false);
       fetchCustomers();
     } catch (error) {
