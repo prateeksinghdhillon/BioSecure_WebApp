@@ -2,7 +2,10 @@ import axios from "axios";
 
 const API_FIRST = (ip) => {
   return axios.create({
-    baseURL: `http://${ip}:5000`,
+    baseURL: `https://${ip}-bio-secure-api-58.loca.lt`,
+    headers: {
+      "bypass-tunnel-reminder": "any",
+    },
   });
 };
 
